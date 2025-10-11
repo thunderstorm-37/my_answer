@@ -13,7 +13,7 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           # 设置你的主TeX文件
-          root_file: main.tex
+          root_file: ZhuHuatao.tex
           latexmk_use_xelatex: true
           # 可选：添加其他编译选项，例如：
           # latexmk_use_xelatex: true  # 使用XeLaTeX引擎
