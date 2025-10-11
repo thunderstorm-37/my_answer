@@ -1,0 +1,626 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, graphicx, hyperref, mathrsfs}
+\title{My Answer}
+\author{Zhu Huatao}
+\date{2025.9.29}
+\linespread{1.5}
+\begin{document}
+    \maketitle
+    
+    \section{}
+        $(a)$ \\  
+        By the Lipschitz continuity of $ \nabla f(x) $,we have:
+        $$ f(y) \leq f(x)+\nabla f(x)^{T}(y-x)+\frac{L}{2}\|y-x\|_{2}^{2} $$ \\
+        Let $ g(y)=f(x)+[\nabla f(x)]^{\top}(y-x)+\frac{L}{2}\|y-x|_{2}^{2} $ \\
+        then we have $ \nabla g(y)=\nabla f(x)\ + L(y-x) $ \\
+        which has a unique zero $ y_{0}=x-\frac{1}{L} \nabla f(x) $ \\
+        Substituting $ y_{0} $ into $g(y)$, we can get \\
+        $$ g(y_{0})=f(x)-\frac{1}{2 L}\|\nabla f(x)\|_{2}^{2} $$ \\
+        Since $ f(y_{0}) \leq g(y_{0}) $ \\
+        so
+        $$ \inf_{y\in R^n}(f(y)) \leq f(y_{0}) \leq f(x)-\frac{1}{2 L}\|\nabla f(x)\|_{2}^{2} $$ \\
+
+        $(b)$ \\
+        Let $ h(y)=f(y)-f(x)-\nabla f(x)^{T}(y-x) $.
+        It's obvious that $h(y)$ is continously differentiable and $h(y)$ is convex.\\
+        From the convexity of f(x), $ h(y) \geq 0 $.
+        $$ \nabla h(y)=\nabla f(y)-\nabla f(x) $$
+        It is L-Lipschitz continous. 
+        So $ \inf_{y \in R^n}(h(y))=h(x)=0 $, which means that
+        $$ h(y)-\frac{1}{2 L}\|\nabla h(y)\|_{2}^{2} \geq 0 $$
+        which is equivalent to the conclusion we want to prove. \\
+    \section{}
+        $(a) \Rightarrow (b)$:\\
+            If $A \succeq 0$ doesn't hold, there exists $k < 0$ and $v \in R^n$ such that $Av=kv$.\\
+            For every $t \in R$, 
+            $$f(tv)=\frac{1}{2}k t^2 v^{\top}v-tb^{\top}v$$
+            When $t \to \infty$, $f(tv) \to -\infty$, which is a contradiction.\\
+            If $b \notin range(A)$.\\
+            Since A is symmetric, we can choose n eigenvectors of A to form an orthonormal basis, 
+            which means that $R^n = range(A) \oplus Ker(A) $ and $range(A)=Ker(A)^{\perp}$\\
+            b can be written as $b_{1}+b_{2}$ where $b_{1} \in range(A)$, $b_{2} \in Ker(A)$ and $b_{1} \ne 0$.\\
+            Chosen $x=tb_{2}$, $f(tb_{2})=-tb_{2}^{\top}b_{2}$, which is contracdict to (a).\\
+        $(b) \Rightarrow (d)$ and $(b) \Rightarrow (a)$:\\
+            There exists unique $y \in R^n$ satisfied $Ay=b$.\\
+            For every $x \in R^n$, 
+            \begin{align}  \label{eq}
+            f(x+y)&= \frac{1}{2}(x+y)^{\top}A(x+y)-b^{\top}(x+y) \nonumber \\
+            &=\frac{1}{2}(x^{\top}Ax+y^{\top}Ay+2y^{\top}Ax)-b^{\top}(x+y) \nonumber \\
+            &=\frac{1}{2}(x^{\top}Ax+y^{\top}Ay+2b^{\top}y)-b^{\top}(x+y) \nonumber \\
+            &=\frac{1}{2}x^{\top}Ax-b^{\top}x+y^{\top}Ay \nonumber \\
+            &\geq f(x)
+            \end{align}
+            This means that $f(x)$ is bounded from below and has a global minimum.\\
+        $(d) \Rightarrow (c)$:\\
+            It's obvious.\\
+        $(c) \Rightarrow (b)$: \\
+            At the local minimizer $z$, $\nabla f(z)$ must be 0, which is equivalent to $Az=b$.\\
+            For every $t \in R$ and $x \in R^n$, when $||tx||$ is small enough,
+            $$ f(z+tx)=f(z)+\frac{1}{2}t^2x^{\top}Ax \geq f(z) $$ 
+            This means that $A \succeq 0$.\\
+        So we have proven that the above four conditions are equivalent.\\
+
+    \section{}
+        We want to prove that $\lim_{||x|| \to \infty} f(x) = +\infty $.\\
+        There exists $ x_{0} \in \mathcal{L}(t_{0})$ and $ R > 0$ such that $\mathcal{L}(t_{0}) \subset B(0,R)$. \\
+        For every $x \in R^n$ and $ \lambda \in [0,1]$, 
+        $$f(\lambda x+(1-\lambda)x_{0}) \leq \lambda f(x)+(1-\lambda)f(x_{0})$$ 
+        Once we fixed x, we choose $\lambda _{x}$ such that $||\lambda _{x}x+(1-\lambda _{x})x_{0}|| = R $. 
+        We denote $\lambda _{x}x+(1-\lambda _{x})x_{0}$ to $ y_{x} $, which means that $f(y_{x}) \geq t_{0} $\\
+        Then $$f(x) \geq \frac{1}{\lambda _{x}}(f(y_{x})+(\lambda _{x}-1)f(x_{0})) \geq \frac{1}{\lambda _{x}}(t_{0}+(\lambda _{x}-1)f(x_{0}))$$ \\
+        When $||x|| \to \infty$, $\frac{1}{\lambda _{x}} \sim \frac{||x||}{R}$, which shows that $f(x) \to +\infty$.\\
+    \section{}
+        Consider a convex function $f:R \to R$ and $K=\left[0,1\right]$.\\
+        First we prove that $f(x)$ is bounded on $\left[0,1\right]$:\\
+        For every $x \in \left(0,1\right)$, 
+        $$ f(x) \leq xf(1)+(1-x)f(0) $$
+        which means that $f(x) \leq \max(f(1),f(0))$. $f(x)$ is upper bounded on $\left[0,1\right]$. \\
+        We can prove that $f(x)$ is upper bounded on any bounded closed interval the same as above.\\
+        If there exists a sequence $\left \{x_{n}\right \} \subset \left[0,1\right]$,
+        satisfying $f(x_{n}) \to -\infty$ when $n \to \infty$, by the compactness of $\left[0,1\right]$, 
+        without losing generality, let $x_{n}\to y \in \left[0,1\right]$.\\
+        $2y-x_{n} \in \left[-1,2\right]$, let $M$ be an upper bound of $f(x)$ on $\left[-1,2\right]$,we have:\\
+        $$ \frac{1}{2}(f(x_{n})+f(2y-x_{n})) \geq f(y)$$
+        $$f(x_{n}) \geq 2f(y)-f(2y-x_{n}) \geq 2f(y)-M$$
+        The inequality holds for every positive integer $n$, which is contradict to the hypothesis.\\
+        So $f(x)$ is bounded from below.\\
+        \\
+        By the convexity of $f(x)$, for every $x_{1} < x_{2} < x_{3} < x_{4}$, we have:\\
+        $$ \frac{f(x_{1})-f(x_{2})}{x_{1}-x_{2}} \leq  \frac{f(x_{3})-f(x_{4})}{x_{3}-x_{4}} $$
+        Let $N$ be an upper bound of $|f(x)|$ on $\left[-1,2\right]$, for every $x,y \in \left[0,1\right]$, we have:\\
+        $$ \frac{f(0)-f(-1)}{0-1} \leq \frac{f(x)-f(y)}{x-y} \leq \frac{f(2)-f(1)}{2-1}$$
+        $$ -2N \leq \frac{f(x)-f(y)}{x-y} \leq 2N$$
+        This shows that $|f(x)-f(y)| \leq 2N|x-y|$, $f$ is Lipschitz continous on $\left[0,1\right]$.
+        For $f:R^n \to R$, K is a bounded closed set, and $f$ is bounded on every bounded closed set.\\
+        For every $x,y \in R^n$, we can write $y$ as $y-x+x$. Once we fixed $x,y$, we can Consider y-x as a ray starting from x.\\
+        So it comes down to the case of n = 1, with the same upper bounds in all directions, which is what we want.\\
+
+
+    \section{}
+        Since $f(x)$ is differentiable, $\nabla f(x^{*}) = 0$.\\
+        First we prove:\\
+        $$ [\nabla f(x)-\nabla f(y)]^{\top}(x-y) \geq \frac{1}{L}\|\nabla f(x)-\nabla f(y)\|^{2} $$:
+        By the conclusion of Problem 1, we have:
+        $$f(x)-f(y)-[\nabla f(x)]^{\top}(x-y) \leq-\frac{1}{2 L}\|\nabla f(x)-\nabla f(y)\|_{2}^{2} $$
+        and $ f(y)-f(x)-[\nabla f(y)]^{\top}(y-x) \leq-\frac{1}{2 L}\|\nabla f(x)-\nabla f(y)\|_{2}^{2}$ \\
+        So we have:
+        $$ [\nabla f(x)-\nabla f(y)]^{\top}(x-y) \geq \frac{1}{L}\|\nabla f(x)-\nabla f(y)\|^{2} $$
+        Substituting $ x^{*} $ into $f(y)$, we can get
+        $$ \nabla f(x)^{\top}(x-y) \geq \frac{1}{L}\|\nabla f(x)\|^{2} $$
+        Let $g(t)=\|x-t\nabla f(x)-x^{*} \|^{2}$, then
+        $$ g(t)=\|x-x^{*}\|^{2}+t^{2}\|\nabla f(x) \|^{2}-2t(x-x^{*})^{\top}\nabla f(x) $$
+        When $0 \leq t \leq \frac{L}{2}$,
+        $$ g(t) \leq \|x-x^{*}\|^{2}+t^{2}\|\nabla f(x) \|^{2}-\frac{2}{L}t\|\nabla f(x) \|^{2} \leq \|x-x^{*}\|^{2}$$
+    \section{}
+        Suppose that convex function $f:R^n \to R$ is differentiable.\\
+        When n=1, such a convex function which is differentiable but not continously differentiable does not exist.\\
+        Prove:\\
+        By the convexity of $f(x)$, for every $x_{1} < x_{2} < x_{3} < x_{4}$, we have:\\
+        $$ \frac{f(x_{1})-f(x_{2})}{x_{1}-x_{2}} \leq  \frac{f(x_{3})-f(x_{4})}{x_{3}-x_{4}} $$
+        So $f'(x_{1}) \leq f'(x_{3})$ for every $x_{1} < x_{3}$. In other words, $f'(x)$ is monotone increasing.\\
+        Moreover, $f'(x)$ has the intermediate value property, which means that $f'(x)$ is contionous.\\
+    \section{}
+        Let $f(x,y)=(y-x^{2})(y-2x^{2})$, then $f(x)$ is twice continously differentiable.\\
+        Near $(0,0)$, for every $k \in R$, 
+        $$ f(x,kx)=x^{2}(k-x)(k-2x) $$
+        when $|x|$ is small enough, $f(x,kx) > 0 = f(0,0)$\\
+        But 
+        $$f(x,\frac{3}{2}x^{2})=-\frac{1}{4}x^{4}$$
+        $ f(x,\frac{3}{2}x^{2}) < 0$ holds for every $x \ne 0 $.\\
+        So $f(x,y)=(y-x^{2})(y-2x^{2})$ is a counterexample.\\
+    \section{}
+        Let $f(x,y)=x^2+y^2+y^3$, then $f(0,0)=0$.\\
+        Near $(0,0)$, when $0<|x|<1$ and $0<|y|<1$, we have $x^2>0$ and $y^2+y^3>0$.\\
+        So $(0,0)$ is a local minimizer.\\
+        $$\nabla f(x,y)=(2x,2y+3y^2)^{\top}$$
+        $\nabla f(x,y)=0$ if and only if $x=0$ and $y=0$.\\
+        Consider $f(0,y)=y^2+y^3$, let $y \to -\infty$, then $f(0,y) \to -\infty $, which means that (0,0) is not a global minimizer.\\
+        So $f(x,y)=x^2+y^2+y^3$ is a counterexample.\\
+    \section{}
+        We only prove the conclusion for the case $X_i \sim B(1,p)$, $\forall i=1,\cdots,n $.\\
+        $$Z=\sum_{i=1}^{n}X_i \sim B(n,p)$$
+        $$ \mathbb{P}(Z < tn)=\mathbb{P}\left(e^{-\lambda \sum_{k=1}^{n} X_{k}} \geq e^{-\lambda t n}\right) \leq \frac{\mathbb{E}\left[e^{-\lambda \sum_{k=1}^{n} X_{k}}\right]}{e^{-\lambda t n}}  $$
+        $$ \mathbb{E}\left[e^{-\lambda Z}\right]=\prod_{k=1}^{n} \mathbb{E}\left[e^{-\lambda X_{k}}\right]=\left[p e^{-\lambda}+(1-p)\right]^{n} $$
+        $$\mathbb{P}\left(Z \leq t n\right) \leq e^{\lambda t n}\left[p e^{-\lambda}+(1-p)\right]^{n}=\left[e^{\lambda t}\left(p e^{-\lambda}+(1-p)\right)\right]^{n}$$
+        Let $f(\lambda)=e^{\lambda t}\left(p e^{-\lambda}+(1-p)\right)$, then\\
+        Let $f'(\lambda)=0$,
+        $$f^{\prime}(\lambda)=t e^{\lambda t}\left(1-p+p e^{-\lambda}\right)+e^{\lambda t}\left(-p e^{-\lambda}\right)=e^{\lambda t}\left[t\left(1-p+p e^{-\lambda}\right)-p e^{-\lambda}\right]=0 .$$
+        we have $e^{-\lambda_0}=\frac{t(1-p)}{p(1-t)}$
+        $$ f(\lambda_0)=\left(\frac{p}{t}\right)^{t}\left(\frac{1-p}{1-t}\right)^{1-t}\leq \exp \left[-\frac{(p-t)^{2}}{2 p} \right] $$
+        So \\
+        $$ \mathbb{P}\left(\sum_{k=1}^{n} X_{k} \leq t n\right) \leq[f(\lambda)]^{n} \leq \exp \left[-\frac{(p-t)^{2}}{2 p} n \right] $$
+        \\
+    \section{}
+        Let $P(A)$ be the set of all eigenvalues of $A$.
+        $(a)$Absolute homogeneity(satisfied):\\
+        $\rho(A)=\max_{k \in P(A)}|k| $. \\
+        Since $k \in P(A) \Leftrightarrow \alpha k \in P(\alpha A)$  we have:\\
+        $$|k_0|=\max_{k \in P(A)}|k| \Leftrightarrow |\alpha k_0|=\max_{l \in P(\alpha A)}|l| $$
+        So $\rho(\alpha A)=|\alpha| \rho(A)$. \\
+        \\
+        $(b)$Triangle inequality(unsatisfied):\\
+        Let:
+        \[
+        A = \left[
+        \begin{array}{cc}  
+            0 & 2  \\
+            0 & 0  \\
+        \end{array}
+        \right]
+        \]
+        \[
+        B = \left[
+        \begin{array}{cc}  
+            0 & 0  \\
+            2 & 0  \\
+        \end{array}
+        \right]
+        \]
+        All eigenvalues of $A,B$ are 0, but $A+B$ is nonsingular.\\
+        So $\rho (A+B) > \rho(A)+\rho(B)$.\\
+        \\
+        $(c)$positive definitness(unsatisfied):\\
+        Choose $A$ from (b), $\rho (A) = 0$ but $A \ne 0$.\\
+        \\
+        $(d)$consistency(unsatisfied):\\
+        Consider $A,B$ mentioned in $(b)$, $\rho (A)=\rho (B)=0 $, but   \\
+        \[
+        AB = \left[
+        \begin{array}{cc}  
+            4 & 0  \\
+            0 & 0  \\
+        \end{array}
+        \right]
+        \]
+        $\rho (AB)=4 > \rho(A) \rho(B)$, which is a counterexample.\\
+        \\
+        
+    \section{}
+        $(a)$:\\
+        This is equivalent to proving the following proposition:\\
+        For all $x,y \geq 0$, $(x+y)^p \leq x^p+y^p$\\
+        Let $g(x)=(x+y)^p-x^p$.\\
+        $g'(x)=p(\frac{1}{(x+y)^{1-p}}-\frac{1}{x^{1-p}})<0$ when $x>0$.\\
+        So $ (x+y)^p=g(x) \geq g(0)=y^p$.\\
+        \\
+        $(b)$:\\
+        We want to prove:\\
+        $$ \|x\|_{p}^p +\|y\|_{p}^p \leq 2^{1-p}(\|x\|_{p}+\|y\|_{p})^p$$
+        Let $a=\frac{\|x\|_{p}}{\|x\|_{p}+\|y\|_{p}}$, what we want to prove is:
+        $$ a^p+(1-a)^p \leq 2^{1-p} $$
+        Let $h(a)=a^p+(1-a)^p$ for $a\in [0,1]$, then we have:\\
+        $h'(a)=p(\frac{1}{a^{1-p}}-\frac{1}{(1-a)^{1-p}})$ and 
+        $h''(a)=p(p-1)(a^{p-2}+(1-a)^{p-2})<0$.\\
+        Since $h'(a)$ has a unique zero $a=\frac{1}{2}$, we have
+        $\max_{[0,1]}h(a)=h(\frac{1}{2})=2^{1-p}$\\
+        So that $h(a)\leq 2^{1-p}$. Then:\\
+        $$ \|x+y\|_{p}^p \leq \|x\|_{p}^p +\|y\|_{p}^p \leq 2^{1-p}(\|x\|_{p}+\|y\|_{p})^p $$
+        $$ \|x+y\|_{p}\leq 2^{\frac{1}{p}-1}(\|x\|_{p}+\|y\|_{p}) $$
+        \\
+        $(c)$:\\
+        \\
+        $(d)$:\\
+        For every $x \in R^n$ and $0<p<q<\infty$, when $x \ne 0$\\
+        $$\|x\|_{p} \geq \|x\|_{q} \Leftrightarrow 1 \geq \frac{\|x\|_{q}}{\|x\|_{p}} $$
+        Let $y=\frac{x}{\|x\|_{p}}$, then $\|y\|_{q}=\frac{\|x\|_{q}}{\|x\|_{p}}$\\ 
+        $$1=\sum_{i=1}^{n}|y_{i}|^p \geq \sum_{i=1}^{n}|y_{i}|^q $$
+        So that $\|y\|_{q} \leq 1$, $1 \geq \frac{\|x\|_{q}}{\|x\|_{p}}$\\
+        \\
+        $(e)$:\\
+        Let $f(p)=log\|x\|_{p}=\frac{1}{p}log(\sum_{i=1}^{n}|x_i|^p)$ and $S(p)=\sum_{i=1}^{n}|x_i|^p$.\\
+        $f(p)$ is convex if and only if $f''(p) \geq 0$.\\
+        $$f^{\prime}(p)=\frac{d}{d p}\left[\frac{1}{p} \log S(p)\right]=-\frac{\log S(p)}{p^{2}}+\frac{S^{\prime}(p)}{p S(p)}$$
+        $$ f^{\prime \prime}(p)=\frac{2 \log S(p)}{p^{3}}-\frac{2 S^{\prime}(p)}{p^{2} S(p)}+\frac{S^{\prime \prime}(p) S(p)-\left[S^{\prime}(p)\right]^{2}}{p[S(p)]^{2}} $$
+        $$ S^{\prime \prime}(p) S(p)-\left[S^{\prime}(p)\right]^{2}=\left(\sum_{i=1}^{n}|x_i|^p (ln|x_i|)^2\right)\left(\sum_{i=1}^{n}|x_i|^p\right)-\left(\sum_{i=1}^{n}\left|x_{i}\right|^{p} \ln \left|x_{i}\right|\right)^{2}\geq 0 $$
+        $$ \frac{2 \log S(p)}{p^{3}}-\frac{2 S^{\prime}(p)}{p^{2} S(p)}=\frac{2}{p^{3}}\left(\log S(p)-\frac{p S^{\prime}(p)}{S(p)}\right) $$
+        Let $g(p)=\log S(p)-\frac{p S^{\prime}(p)}{S(p)}$
+        $$g(p)=\frac{\sum_{i=1}^{n}(|x_i|^plog(\sum_{j=1}^{n}|x_j|^p))-\sum_{i=1}^{n}|x_i|^p pln|x_i|}{\sum_{i=1}^{n}|x_i|^p}\geq 0$$
+        So $f''(p)\geq 0$ for every $p>0$.\\
+        \\
+        $(f)$:\\
+        \\
+    \section{}
+        $$\|A\|=\sup_{\|x\|=1}\|Ax\|=\sup_{\|x\| \ne 0} \frac{\|Ax\|}{\|x\|}$$
+        For the case of $x=0$,\\
+        $$\sup_{\|d\|\leq 1}\|Ad\| \geq \sup_{\|d\|=1}\|Ad\| =\|A\|$$
+        \\
+    \section{}
+        $(a)$:\\
+        If $\lambda \ne 0$ is an eigenvalue of $AB$ and $ABv=\lambda v$, we have\\
+        $$BA(Bv)=B(\lambda v)=\lambda Bv $$
+        So $\lambda$ is an eigenvalue of $BA$ and $Bv$ is an eigenvector of $BA$.\\
+        Similarly, if $\lambda \ne 0$ is an eigenvalue of $AB$, 
+        $\lambda \ne 0$ is also an eigenvalue of $BA$.\\
+        \\
+        $(b)$:\\
+        We are going to prove that, for every $x\ne 0$:\\
+        $$ dim(Ker(xI_m-AB))=dim(Ker(xI_n-BA)) $$
+        Set $f(v)=Bv$ for every $x\in Ker(xI_m-AB)$.\\
+        It's obvious that $Bv\in Ker(xI_n-BA)$.\\
+        We can similarly define $g:Ker(xI_n-BA) \to Ker(xI_m-AB)$, $g(w)=Aw$.\\
+        Consider $f\circ g:Ker(xI_n-BA) \to Ker(xI_n-BA)$: 
+        for every $w\in Ker(xI_n-BA)$, 
+        $$ f\circ g(w)=BAw=xw $$
+        So $f\circ g$ is injective, which means that $g$ is injective.\\
+        Similarly, $f$ is also injective. So we have:\\
+        $$ dim(Ker(xI_m-AB))=dim(Ker(xI_n-BA)) $$
+        \\
+        $(c)$:\\
+        $$det(xI_m-AB)=x^{m-n}det(xI_n-BA)$$
+        If $\lambda\ne 0$ is an eigenvalue of $AB$ and $BA$, 
+        and if the algebraic multiplicity of $\lambda$ respect to $AB$ is k, then
+        $$ det(xI_m-AB)=(x-\lambda)^kp(x) $$
+        where $l.c.d.(p(x),x-\lambda)=1$.\\
+        Since $l.c.d.(x,x-\lambda)=1$, 
+        $$ det(xI_n-BA)=(x-\lambda)^kq(x) $$
+        where $l.c.d.(q(x),x-\lambda)=1$. So the conclusion holds.\\
+        \\
+    \section{}
+        For matrix $A\in \mathbb{C}^{n \times n}$, there exists a nonsingular matrix $M \in \mathbb{C}^{n \times n}$, 
+        such that $M^{-1}JM=A $, where $J$ is the Jordan normal form of $A$.\\
+        For every $p\in \mathbb{C}[x]$, since 
+        $p(A)=p(M^{-1}JM)=M^{-1}p(J)M$ and $det(xI_n-M^{-1}JM)=det(xI_n-J)$,\ \
+        we only need to prove that the conclusion holds for every Jordan block $J_{\lambda}$.\\
+        Assume that $J_{\lambda}$ has a dimension $k$.\\
+        $(a)$:\\
+        $p(J_{\lambda})$ is an upper triangular matrix, whose elements on the diagonal are all $p(\lambda)$.\\
+        If the characteristic polynomial of $J_{\lambda}$ is:\\
+        $$det(xI_k-J_{\lambda})=(x-\lambda)^k $$
+        then the characteristic polynomial of $p(J_{\lambda})$ is:\\
+        $$det(xI_k-p(J_{\lambda}))=(x-p(\lambda))^k $$
+        So that $\lambda$  is an eigenvalue of $J_{\lambda}$ if and only if $p(\lambda)$ is an eigenvalue of $p(J_{\lambda})$.\\
+        $(b)$:\\
+        The same as above, it's obvious that if the multiplicity of $\lambda$ is $k$, 
+        then the multiplicity $p(\lambda)$ is also $k$.
+        \\
+    \section{}
+        \[
+        \lambda I_n-A= 
+        \begin{pmatrix}
+        \lambda-1 &\cdots & -x\\
+        \vdots    &\ddots & \vdots\\
+        -x        &\cdots & \lambda-1
+        \end{pmatrix}
+        \]
+        \[
+        det(\lambda I_n-A)= det
+        \begin{pmatrix}
+        \lambda-1 &\cdots & -x\\
+        \vdots    &\ddots & \vdots\\
+        -x        &\cdots & \lambda-1
+        \end{pmatrix}=(\lambda-1-(n-1)x)\cdot det 
+        \begin{pmatrix}
+        1         &-x       &\cdots & -x\\
+        1         &\lambda-1&\cdots & -x\\
+        \vdots    &\vdots   &\ddots & \vdots\\
+        1         &-x       &\cdots & \lambda-1
+        \end{pmatrix}
+        \]
+        \[
+        det(\lambda I_n-A)= (\lambda-1-(n-1)x)\cdot det
+        \begin{pmatrix}
+        1         &0        &\cdots & 0\\
+        1         &\lambda-1+x&\cdots & 0\\
+        \vdots    &\vdots   &\ddots & \vdots\\
+        1         &0        &\cdots & \lambda-1+x
+        \end{pmatrix}
+        \]
+        $$det(\lambda I_n-A)=(\lambda-1-(n-1)x)(\lambda-1+x)^{n-1}$$
+        $(a)$:\\
+        The eigenvalues of $A$ are $1-x$ (order $n-1$) and $1+(n-1)x$ (order $1$).\\
+        \\
+        $(b)$:\\
+        $A$ is positive definite if and only if $1-x>0$ and $1+(n-1)x>0$, 
+        $$ -\frac{1}{n-1} < x < 1 $$
+        \\
+    \section{}
+        $ $
+        \\
+    \section{}
+        $(a)$:\\
+        If $0$ is an eigenvalue of $J$, $J$ is singular, which means that $A$ is singular 
+        and $0$ is an eigenvalue of $A$.\\
+        In the following, we only consider nonzero eigenvalues of $J$.\\
+        \[
+        det(xI_{2n}-J)=det
+        \begin{pmatrix}
+        xI_n & -A\\
+        -A^{H} &xI_n
+        \end{pmatrix}
+        \]
+        \[
+        det
+        \begin{pmatrix}
+        xI_n & -A\\
+        -A^{H} &xI_n
+        \end{pmatrix}=det
+        \begin{pmatrix}
+        xI_n & -A\\
+        -A^{H} &xI_n
+        \end{pmatrix}
+        \begin{pmatrix}
+        I_n & 0\\
+        \frac{1}{x} A^{H} &I_n
+        \end{pmatrix}=
+        \begin{pmatrix}
+        xI_n-\frac{1}{x}A & -A\\
+        0 &xI_n
+        \end{pmatrix}
+        \]
+        $$ det(xI_{2n}-J)=x^n det(xI_n-\frac{1}{x}AA^{H})=det(x^2I_n-AA^{H}) $$
+        So if the eigenvalues of  $A^{H} A$  are  $\sigma_{1}, \ldots, \sigma_{n}$ , multiplicity included, 
+        the eigenvalues of  J  are  $\sqrt{\sigma_{1}},-\sqrt{\sigma_{1}}, \ldots, \sqrt{\sigma_{n}},-\sqrt{\sigma_{n}}$ , multiplicity included.
+        \\
+        $(b)$:\\
+        Denote 
+        \[
+        U=
+        \begin{pmatrix}
+        U_1 & U_2\\
+        V_1 & V_2
+        \end{pmatrix}
+        \]
+        $U$ is an unitary matrix, so:\\
+        \[
+        \begin{pmatrix}
+        U_1 & U_2\\
+        V_1 & V_2
+        \end{pmatrix}
+        \begin{pmatrix}
+        U_1 & U_2\\
+        V_1 & V_2
+        \end{pmatrix} ^{H}=
+        \begin{pmatrix}
+        U_1 & U_2\\
+        V_1 & V_2
+        \end{pmatrix}
+        \begin{pmatrix}
+        U_1^{H} & V_1^{H}\\
+        U_2^{H} & V_2^{H}
+        \end{pmatrix}=
+        \begin{pmatrix}
+        I_n & 0\\
+        0   & I_n
+        \end{pmatrix}
+        \]
+        So we have 
+        $$ U_1 V_1^{H}+U_2 V_2^{H}=0 \Rightarrow U_1 V_1^{H}=-U_2 V_2^{H}$$
+        \[
+        U 
+        \begin{pmatrix}
+        \Sigma & 0\\
+        0      & \Sigma     
+        \end{pmatrix} U^{H}=
+        \begin{pmatrix}
+        U_1\Sigma U_1^{H}-U_2\Sigma U_2^{H} & U_1\Sigma V_1^{H}-U_2\Sigma V_2^{H}\\
+        V_1\Sigma U_1^{H}-V_2\Sigma U_2^{H} & V_1\Sigma V_1^{H}-V_2\Sigma V_2^{H}   
+        \end{pmatrix}
+        \]
+        \[
+        U 
+        \begin{pmatrix}
+        \Sigma & 0\\
+        0      & \Sigma     
+        \end{pmatrix} U^{H}=J=
+        \begin{pmatrix}
+        0     & A\\
+        A^{H} & 0    
+        \end{pmatrix}
+        \]
+        So that 
+        $$ A=U_1\Sigma V_1^{H}-U_2\Sigma V_2^{H}=2U_1\Sigma V_1^{H}=-2U_2\Sigma V_2^{H} $$
+        \\
+    \section{}
+        $(a)$:\\
+        
+        $$ w_{k}=v_{k+1}-v_{k}=\sqrt{\frac{k+2}{2(k+1)}}e_{k+1}+(\frac{1}{\sqrt{2k(2k+1)}}-\sqrt{\frac{k+1}{2k}})e_k $$
+    \section{}
+        Set $T:R^{m\times n}\to R^{m\times n}$, $TX=AX-XB$. $T$ is a linear map.\\
+        $TX=C$ has a unique solution for all $C\in R^{m\times n}$ if and only if $T$ is injective.\\
+        "Only if" part: $AX-XB=C$ has a unique solution.\\
+        If $A,B$ share the same eigenvalue $k$, there exists $u\in R^{m}$ and $v\in R^n $, 
+        such that $Au=ku$ and $Bv=kv$.\\
+        Let $X=uv^{\top}$. Then 
+        $$ AX-XB=Auv^{\top}-uv^{\top}B=kuv^{\top}-kuv^{\top}=0 $$
+        $TX=0$ has a nontrivial solution, so that $TX=C$ has no solution or at least 2 solutions, \\
+        which is a contradiction.\\
+        \\
+        "If" part: $A,B$ do not share any eigenvalue.\\
+        If $TX=C$ has at least 2 solutions for some $C\in R^{m\times n}$, 
+        which means that $TX=0$($AX=XB$) has nontrivial solution.\\
+        Let $M$ be the unique solution of $AX=XB$.\\
+        Let $p(x)$ and $q(x)$ be the characteristic polynomial of $A$and $B$.\\
+        Then we have $0=p(A)X=Xp(B)$ and $q(A)X=Xq(B)=0$.\\
+        Since $X$ is nontrivial, there exists a $w\in R^m$ such that $w^{\top}X\ne 0 $, then\\
+        $$ w^{\top}Xp(B)=0 $$
+        $p(B)$ is singular, so that $0$ is an eigenvalue of $p(B)$.\\
+        Since all the eigenvalues of $p(B)$ are $p(\lambda)$ where $\lambda$ are the eigenvalues of $B$.\\
+        So $p(\lambda_0)=0$ holds for some eigenvalues $\lambda_0 $of $B$, \\
+        which means that $\lambda_0$ is an eigenvalue of $A$, which is a contradiction.\\
+        So $T$ is injective, and  \\
+        $TX=C$ has a unique solution for all $C\in R^{m\times n}$.\\
+        \\
+    \section{}
+        Let $g(x)$ be the $c.d.f$ of $X$, and $g(-\infty)=0$, $g(+\infty)=1$.\\
+        For every partition of the interval $[-\infty,+\infty]$, $-\infty=x_0<x_1<\dots <x_n=+\infty$. \\
+        $$ f(\sum_{i=0}^{n-1}(g(x_{i+1})-g(x_i))x_i) \leq \sum_{i=0}^{n-1}f(x_i)((g(x_{i+1})-g(x_i))) $$
+        Let $n\to \infty$ and $ \max_{1\leq i \leq n-2}(x_{i+1}-x_{i}) \to 0$, we have:\\
+        $$ f(\int_{-\infty}^{+\infty}x\mathrm{d}g(x)) \leq \int_{-\infty}^{+\infty}f(x)\mathrm{d}g(x)$$
+        $$ f(\mathbb{E} (X)) \leq \mathbb{E}(f(X)) $$
+        \\
+
+
+    \section{}
+        $$\int_{0}^{1}f(x)\mathrm{d}x-f(\frac{1}{2})= \int_{0}^{1}f(x)-f(\frac{1}{2})\mathrm{d}x$$
+        $$ \int_{0}^{1}f(x)-f(\frac{1}{2})\mathrm{d}x=\int_{\frac{1}{2}}^{1}f(x)-f(\frac{1}{2})\mathrm{d}x+\int_{0}^{\frac{1}{2}}f(x)-f(\frac{1}{2})\mathrm{d}x $$
+        $$\int_{0}^{1}f(x)-f(\frac{1}{2})\mathrm{d}x=\int_{\frac{1}{2}}^{1}f(x)-f(\frac{1}{2})\mathrm{d}x-\int_{\frac{1}{2}}^{1}f(\frac{1}{2})-f(1-x)\mathrm{d}x $$
+        Since $f(x)$ is convex, $f(x)-f(\frac{1}{2})\geq f(\frac{1}{2})-f(1-x)$ holds for $x\in[\frac{1}{2},1]$. \\
+        So $ \int_{0}^{1}f(x)\mathrm{d}x \geq f(\frac{1}{2})$.\\
+        $$\frac{1}{2}(f(0)+f(1))-\int_{0}^{1}f(x)\mathrm{d}x= \int_{\frac{1}{2}}^{1}f(1)-f(x)\mathrm{d}x+\int_{0}^{\frac{1}{2}}f(0)-f(x)\mathrm{d}x $$
+        $$ \frac{1}{2}(f(0)+f(1))-\int_{0}^{1}f(x)\mathrm{d}x= \int_{\frac{1}{2}}^{1}f(1)-f(x)\mathrm{d}x-\int_{\frac{1}{2}}^{1}f(1-x)-f(0)\mathrm{d}x$$
+        When $x\in[\frac{1}{2},1]$, $x\geq 1-x$. So $ f(1)-f(x) \geq f(1-x)-f(0)$, which means that\\
+        $$\int_{\frac{1}{2}}^{1}f(1)-f(x)\mathrm{d}x-\int_{\frac{1}{2}}^{1}f(1-x)-f(0)\mathrm{d}x \geq 0 $$
+        So $\frac{1}{2}(f(0)+f(1))\geq \int_{0}^{1}f(x)\mathrm{d}x  $.\\
+        \\
+    \section{}
+        Assume that $X$, $Y$ are $i.i.d.$ random variables. Then $ \mathbb{E}(f(Y)g(X))=\mathbb{E}(g(X))\mathbb{E}(f(Y)) $\\
+        $$(f(X)-f(Y))(g(X)-g(Y))\geq 0$$
+        $$ \mathbb{E}(f(X)-f(Y))(g(X)-g(Y))\geq 0 $$
+        $$ \mathbb{E}(f(X)-f(Y))(g(X)-g(Y))=\mathbb{E}(f(X)g(X))+\mathbb{E}(f(Y)g(Y))-\mathbb{E}(f(X)g(Y))-\mathbb{E}(f(Y)g(X)) $$
+        Since $\mathbb{E}(f(X)g(X))=\mathbb{E}(f(Y)g(Y))$ and $\mathbb{E}(f(Y)g(X))=\mathbb{E}(f(Y)g(X))$,\\
+        $$ 2(\mathbb{E}(f(X)g(X))-\mathbb{E}(f(Y)g(X)))\geq 0 $$
+        $$ \mathbb{E}(f(X)g(X))-\mathbb{E}(g(X))\mathbb{E}(f(Y))\geq 0 $$
+    \section{}
+        We have rearrangement inequality:\\
+        For any rearrangement $\sigma$ of the sequence 0, 1, ..., n, we have:\\
+        $$ \sum_{k=0}^{n} a_{k} b_{n-k} \leq \sum_{k=0}^{n} a_{k} b_{\sigma(k)} \leq \sum_{k=0}^{n} a_{k} b_{k}$$
+        Consider a rearrangement $\tau$, satisfied $\tau(k)\equiv k+1 \pmod{n+1}$. Let $\tau ^m(k)\equiv k+m \pmod{n+1}$ then \\
+        $$ \frac{1}{n+1}\left(\sum_{k=0}^{n} a_{k}\right)\left(\sum_{k=0}^{n} b_{k}\right)
+        = \frac{1}{n+1}\sum_{i=0}^{n} \sum_{j=0}^{n}a_{j}b_{\tau^{i}(j)} $$
+        So by rearrangement inequality, we have:\\
+        $$ \sum_{k=0}^{n} a_{k} b_{n-k} \leq \frac{1}{n+1}\left(\sum_{k=0}^{n} a_{k}\right)\left(\sum_{k=0}^{n} b_{k}\right) \leq \sum_{k=0}^{n} a_{k} b_{k} $$
+    \\
+    \section{}
+        Let $x_n=\sum_{k=1}^{n}\frac{1}{k}$, then $x_{k+1}-x_k=\frac{1}{k+1}$.\\
+        For every $\varepsilon>0 $, there exists $n_0$ such that $\frac{1}{n_0+1}<\varepsilon$.\\
+        $$ \sum_{|x_{k+1}-x_k|>\varepsilon}|x_{k+1}-x_k| < \sum_{k=1}^{n_0+1}\frac{1}{n_0+1}<\infty $$
+        But $\lim_{n\to \infty}x_n=+\infty$.\\
+        Conversely, if $\{x_n\}\subset R$ converges, for every $\varepsilon>0 $, there exists $N$ such that \\
+        if $n,m>N$, $|x_m-x_n|<\varepsilon$. So we have\\
+        $$ \sum_{|x_{k+1}-x_k|>\varepsilon}|x_{k+1}-x_k|<\sum_{k=1}^{N+1}|x_{k+1}-x_k|<+\infty $$.\\
+        \\
+    \section{}
+        When $(a)$ holds:\\
+        Since $\{a_k\},\{b_k\}$ are nonnegative sequences and $a_k\geq b_k$,\\
+        $$\sum_{k=0}^{\infty} a_{k} \leq \sum_{k=0}^{\infty} b_{k} \leq 2 a_{0}+4 \sum_{k=0}^{\infty} b_{k}$$
+        \\
+        When $(b)$ holds:\\
+        It's easy to find that $a_k=\frac{1}{2^k}a_0$, so that\\
+        $$\sum_{k=0}^{\infty} a_{k}=\frac{1}{1-\frac{1}{2}}a_{0}=2a_0\leq2a_0+ 4 \sum_{k=0}^{\infty} b_{k}$$
+        \\
+    \section{}
+        $(a)$:\\
+        Let $g(x)=\|x-Tx\|$.\\
+        Since $X$ is a compact set and $g(x)$ is a continous function, there exists $y$ such that:\\
+        $$g(y)=\inf_{x\in X}g(x) $$
+        If $y \ne Ty$, we have\\
+        $$ g(Ty)=\|Ty-T^2 y\|<\|y-Ty\|=g(y) $$
+        which is a contradiction. So $y=Ty$. \\
+        If $z \in X$ satisfies $z=Tz$, then\\
+        $$\|Tz-Ty\|=\|z-y\| \Rightarrow z=y $$
+        So $T$ has a unique fixed point.\\
+        \\
+        $(b)$:\\
+        Let $y$ be the fixed point of T,and $h(x)=\|x-y\|$. $h(x)$ is contionous.\\
+        If there exists $n_0$ such that $Tx_{n_0}=x_{n_0}$, then for $n\geq n_0$, $x_{n_0}=y$.\\
+        Let's make all $x_n \ne x_{n+1}$.\\
+        $$h(x_{n+1})=\|x_{n+1}-y\|=\|Tx_n-Ty\|<\|x_n-y\|=h(x_n) $$
+        Since $h(x_n)\geq 0$, $h(x_n)$ has the greatest lower bound $M \geq 0$.\\
+        There exists a subsequence $\{x_{n_{k}}\}$ such that $h(x_{n_{k}})\to M$.\\
+        $\{x_{n_{k}}\}$ has a convergent subsequence. 
+        For simplicity, let $\{x_{n_{k}}\}$ be convergent, $x_{n_{k}}\to z\in X$ .\\
+        So $\|z-y\|=M$ and $x_{n_{k}+1}=Tx_{n_{k}} \to Tz$. If $z\ne y$, we have:\\
+        $$ \|x_{n_{k}+1}-y\| \to \|Tz-y\| < \|z-y\| =M$$
+        which is a contradiction. So $x_{n_{k}}\to y$.\\
+        Since $\|x_n-y\|$ is decreasing, $\|x_n-y\| \to 0$, which means that $x_n \to y$.\\
+        \\
+    \section{}
+        I think that it has a counterexample $f(x)$ that $f(x)$ has at least 2 fixed points and $|f'(x)|>1$ near the fixed points.\\ 
+        \\
+    \section{}
+        Let $A=f(0)-f(1)$. There exists $y\in [0,1]$ such that $|f'(y)|=\max_{x\in [0,1]}|f'(x)|\geq 2|A|$.\\
+        Since $f'(0)=f'(1)=0$, there exists $c\in (0,1)$ such that $f''(c)=0$.\\
+        If $|f'(y)|=0$, then $k=0$ and $f''(x)\equiv 0$.\\
+        If $|f'(y)|>0$, there exists $a\in (0,y)$ and $b\in (y,1)$, such that\\
+        $$ f'(y)-f'(0)=f''(a)y $$
+        $$ f'(1)-f'(y)=f''(b)(1-y) $$
+        So we have
+        $ |f''(a)|=\frac{|f'(y)|}{y} $ and $ |f''(b)|=\frac{|f'(y)|}{1-y} $. Then \\
+        $$\max(|f''(a)|,|f''(b)|)\geq \max(\frac{2|A|}{y},\frac{2|A|}{1-y}) \geq 4|A|$$
+        Since $|f''(c)|=0$, there exists $\xi \in (0,1)$ such that 
+        $$|f''(\xi)|=4|A|=4|f(0)-f(1)|$$
+    \section{}
+        $(a)$:\\
+        Define $f:R\to R$, $f(x)=0$ when $x\leq 0$.\\
+        Let $a_n=\sum_{i=1}^{n}\frac{1}{4^n}$, then $a_n \to \frac{1}{3}$.\\
+        In $[0,1]$, when $x\in [0,\frac{1}{8}]$, $f(x)=8x$, when $x\in [\frac{1}{8},\frac{1}{4}]$, $f(x)=-8x+2$, $f(x)=0$ when $x\in [\frac{1}{4},1]$.\\
+        For every positive integer $n$, when $x\in [n,n+a_n]$, $f(x)=0$, \\
+        when $x\in [n+a_n,n+a_n+\frac{1}{2\cdot 4^{n+1}}]$, $f(x)=2\cdot 4^{n+1}(x-n-a_n)$, \\
+        when $x\in [n+a_n+\frac{1}{2\cdot 4^{n+1}},n+a_n+\frac{1}{4^{n+1}}] $, $f(x)=2\cdot 4^{n+1}(-x+n+a_n+\frac{1}{4^{n+1}})$,\\
+        when $x\in [n+a_n+\frac{1}{4^{n+1}},n+1]$, $f(x)=0$.\\
+        Denote $A_n=[n+a_n,n+a_n+\frac{1}{\cdot 4^{n+1}}]$, then $f(x)\ne 0$ if and only if there exists $n_0$ and $x\in A_{n_0}$.\\
+        Let $B_n=[a_n,a_n+\frac{1}{\cdot 4^{n+1}}]$. $B_n$ are pairwise disjoint and $\bigcup_{n=1}^{\infty}B_n=[\frac{1}{4},\frac{1}{3}]$.\\
+        So for every $x\in R$, there exists unique $n_{x}$ and $ k_{x} $,\\
+        such that $ x+k \in A_{n} $ if and only if $k=k_{x}$ and $ n=n_{x} $.\\
+        So for every $x\in R$, $\lim_{k\to \infty}f(x+k)=0$.\\
+        But $f(n+a_n+\frac{1}{2\cdot 4^{n+1}})=1$, $\lim_{x\to \infty}f(x)\ne 0$.\\
+        \\
+        $(b)$:\\
+        \\
+    \section{}
+        $(a)$:\\
+        Let $g(x)=\int_{0}^{x}|f(t)|^2\mathrm{d}t$. Then $0\leq g(x)\leq f(x)$ and $g(0)=0$.\\
+        If $\min_{x\in [0,1]}f(x)=0$, $\min_{x\in [0,1]}f(x)<2$.\\
+        If $\min_{x\in [0,1]}f(x)>0$, 
+        For every $x\in (0,1]$, we have:\\
+        $$ \int_{x}^{1} \frac{g'(t)}{g^2(t)}\mathrm{d}t \geq \int_{x}^{1}\mathrm{d}t=1-x$$
+        $$ \int_{x}^{1} \frac{g'(t)}{g^2(t)}\mathrm{d}t = \frac{1}{g(x)}-\frac{1}{g(1)} $$
+        $$g(x) \leq \frac{1}{1-x+\frac{1}{g(1)}} < \frac{1}{1-x}$$
+        $$ x(\min_{y\in [0,1]}f(y))^2 \leq \int_{0}^{x}|f(t)|^2\mathrm{d}t =g(x)<\frac{1}{1-x} $$
+        $$ (\min_{y\in [0,1]}f(y))^2 < \frac{1}{x(1-x)} $$
+        choose $x=\frac{1}{2}$, $(\min_{y\in [0,1]}f(y))^2 < 4$, which means that
+        $$\min_{y\in [0,1]}f(y) < 2$$
+        $(b)$:\\
+        By the proof of $(a)$, there does not exist a function $f$ satisfying:\\
+        $\min_{y\in [0,1]}f(y) = 2$ and $\int_{0}^{x}|f(t)|^2\mathrm{d}t \geq f(x)$.\\
+        But I'm not sure whether the bound is tight or not.\\
+        \\
+    \section{}
+        If $A$ is singular, 
+        $$\min_{\|x\|_2}\|Ax\|_{\infty}=0 \leq \frac{1}{n}\|A\|_{F} $$
+        If $A$ is nonsingular:\\
+        Denote $A=(a_1,a_2,\cdots,a_n)^{\top}$, then \\
+        $$\|A\|_{F}=(\sum_{i=1}^{n}\|a_i\|_2^2)^{\frac{1}{2}}$$
+        Since $\sqrt{x}$ is concave funtion,\\
+        $$\frac{1}{n}\|A\|_{F}=\frac{1}{n}(\sum_{i=1}^{n}\|a_i\|_2^2)^{\frac{1}{2}}
+        \leq (\sum_{i=1}^{n}\frac{\|a_i\|_2^2}{n})^{\frac{1}{2}}$$
+        Let $a_k$ satisfied $\|a_k\|_2=\min_{i=1,\cdots,n}\|a_i\|_2$,\\
+        We can find $y\in \{\|x\|_2=1\}$ such that $y^{\top}a_i=0$ holds for all $i\ne k$.\\
+        Then we have:\\
+        $$ \|Ax\|_{\infty}=|y^{\top}a_k|\leq \|a_k\|_2 \leq \frac{1}{n}(\sum_{i=1}^{n}\|a_i\|_2^2)^{\frac{1}{2}}$$
+        $$\min_{\|x\|_2=1}\|Ax\|_{\infty}\leq \frac{1}{n}\|A\|_{F}$$
+        
+        
+    \section{}
+        If the set $S$ satisfying those conditions exists:\\
+        In numerical computation, due to the characteristics of floating-point calculation, 
+        we cannot accurately reach 0.\\
+        So we need to set $\varepsilon>0$ that is close enough to 0. 
+        If a floating number $x$ satisfying $|x|<\varepsilon$, we take $x$ as 0.\\
+        Due to the existence of $S$, once we fixed $\varepsilon$, 
+        in the sense of floating-point calculations, \\
+        the cardinality of a set of unit vectors that are pairwise orthogonal is at least $\exp (cn\varepsilon ^2)$, 
+        which may exceed $n$.\\
+        So we cannot rely on such a theory in numerical computation.\\
+        
+\end{document}
