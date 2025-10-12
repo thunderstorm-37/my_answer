@@ -11,3 +11,7 @@ linespread
 maketitle
 mathrsfs
 usepackage
+ZhuHuatao
+latexmk
+pdf
+tex
