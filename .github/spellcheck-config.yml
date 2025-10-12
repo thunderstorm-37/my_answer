@@ -1,0 +1,22 @@
+matrix:
+  - name: Markdown and TeX
+    aspell:
+      lang: en
+    hunspell:
+      d: en_US
+    dictionary:
+      wordlists:
+        - .github/wordlist.txt 
+      output: wordlist.dic
+    pipeline:
+      - pyspelling.filters.markdown:
+          markdown_extensions:
+            - markdown.extensions.fenced_code
+      - pyspelling.filters.html:
+          comments: false
+          ignores:
+            - code
+            - pre
+    sources:
+      - '**/*.md'
+      - '**/*.tex'
