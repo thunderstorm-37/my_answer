@@ -17,4 +17,7 @@ pdf
 tex
 md
 yaml
-Github
+GitHub
+wordlist
+wordlist.txt
+txt
