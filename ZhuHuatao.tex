@@ -7,28 +7,45 @@
 \begin{document}
     \maketitle
     
-    \section{}
-        $(a)$ \\  
-        By the Lipschitz continuity of $ \nabla f(x) $,we have:
-        $$ f(y) \leq f(x)+\nabla f(x)^{T}(y-x)+\frac{L}{2}\|y-x\|_{2}^{2} $$ \\
-        Let $ g(y)=f(x)+[\nabla f(x)]^{\top}(y-x)+\frac{L}{2}\|y-x|_{2}^{2} $ \\
-        then we have $ \nabla g(y)=\nabla f(x)\ + L(y-x) $ \\
-        which has a unique zero $ y_{0}=x-\frac{1}{L} \nabla f(x) $ \\
-        Substituting $ y_{0} $ into $g(y)$, we can get \\
-        $$ g(y_{0})=f(x)-\frac{1}{2 L}\|\nabla f(x)\|_{2}^{2} $$ \\
-        Since $ f(y_{0}) \leq g(y_{0}) $ \\
-        so
-        $$ \inf_{y\in R^n}(f(y)) \leq f(y_{0}) \leq f(x)-\frac{1}{2 L}\|\nabla f(x)\|_{2}^{2} $$ \\
+        \section{}
+        \noindent (a) \\
+        By the $L$-Lipschitz continuity of $\nabla f$ we have for all $x,y\in\mathbb{R}^n$:
+        \[
+            f(y) \le f(x) + \nabla f(x)^\top (y-x) + \frac{L}{2}\|y-x\|_2^2.
+        \]
+        Define
+        \[
+            g(y) := f(x) + \nabla f(x)^\top (y-x) + \frac{L}{2}\|y-x\|_2^2.
+        \]
+        Then
+        \[\nabla g(y)=\nabla f(x) + L(y-x),\]
+        which has the unique stationary point
+        \[y_0 = x - \frac{1}{L}\nabla f(x).
+        \]
+        Substituting $y_0$ into $g$ gives
+        \[
+            g(y_0) = f(x) - \frac{1}{2L}\|\nabla f(x)\|_2^2.
+        \]
+        Since $f(y)\le g(y)$ for all $y$, we obtain
+        \[
+            \inf_{y\in\mathbb{R}^n} f(y) \le f(y_0) \le f(x) - \frac{1}{2L}\|\nabla f(x)\|_2^2.
+        \]
 
-        $(b)$ \\
-        Let $ h(y)=f(y)-f(x)-\nabla f(x)^{T}(y-x) $.
-        It's obvious that $h(y)$ is continously differentiable and $h(y)$ is convex.\\
-        From the convexity of f(x), $ h(y) \geq 0 $.
-        $$ \nabla h(y)=\nabla f(y)-\nabla f(x) $$
-        It is L-Lipschitz continous. 
-        So $ \inf_{y \in R^n}(h(y))=h(x)=0 $, which means that
-        $$ h(y)-\frac{1}{2 L}\|\nabla h(y)\|_{2}^{2} \geq 0 $$
-        which is equivalent to the conclusion we want to prove. \\
+        \noindent (b) \\
+        Let
+        \[h(y) := f(y) - f(x) - \nabla f(x)^\top (y-x).
+        \]
+        By convexity of $f$ we have $h(y)\ge 0$ for all $y$ and $h(x)=0$. Moreover
+        \[\nabla h(y)=\nabla f(y)-\nabla f(x),\]
+        which is $L$-Lipschitz continous. Applying the estimate from part (a) to the convex function
+        $h$ (noting that $\inf h=0$) yields
+        \[
+            h(y) \ge \frac{1}{2L}\|\nabla h(y)\|_2^2.
+        \]
+        Substituting back $h$ and its gradient gives the desired inequality
+        \[
+            f(y)-f(x)-\nabla f(x)^\top(y-x) \ge \frac{1}{2L}\|\nabla f(y)-\nabla f(x)\|_2^2.
+        \]
     \section{}
         $(a) \Rightarrow (b)$:\\
             If $A \succeq 0$ doesn't hold, there exists $k < 0$ and $v \in R^n$ such that $Av=kv$.\\
@@ -60,15 +77,34 @@
             This means that $A \succeq 0$.\\
         So we have proven that the above four conditions are equivalent.\\
 
-    \section{}
-        We want to prove that $\lim_{||x|| \to \infty} f(x) = +\infty $.\\
-        There exists $ x_{0} \in \mathcal{L}(t_{0})$ and $ R > 0$ such that $\mathcal{L}(t_{0}) \subset B(0,R)$. \\
-        For every $x \in R^n$ and $ \lambda \in [0,1]$, 
-        $$f(\lambda x+(1-\lambda)x_{0}) \leq \lambda f(x)+(1-\lambda)f(x_{0})$$ 
-        Once we fixed x, we choose $\lambda _{x}$ such that $||\lambda _{x}x+(1-\lambda _{x})x_{0}|| = R $. 
-        We denote $\lambda _{x}x+(1-\lambda _{x})x_{0}$ to $ y_{x} $, which means that $f(y_{x}) \geq t_{0} $\\
-        Then $$f(x) \geq \frac{1}{\lambda _{x}}(f(y_{x})+(\lambda _{x}-1)f(x_{0})) \geq \frac{1}{\lambda _{x}}(t_{0}+(\lambda _{x}-1)f(x_{0}))$$ \\
-        When $||x|| \to \infty$, $\frac{1}{\lambda _{x}} \sim \frac{||x||}{R}$, which shows that $f(x) \to +\infty$.\\
+        \section{}
+        We prove that
+        \[\lim_{\|x\|\to\infty} f(x)=+\infty.\]
+
+        Assume there exists a level $t_0$ such that the sublevel set
+        \[\mathcal{L}(t_0):=\{x\in\mathbb{R}^n:\;f(x)\le t_0\}\]
+        is nonempty and contained in a ball $B(0,R)$ for some $R>0$. Pick
+        $x_0\in\mathcal{L}(t_0)$ with $f(x_0) \leq t_0$.
+
+        Fix any $x\in\mathbb{R}^n$ with $x\neq x_0$. Because the ray
+        $\{\lambda x+(1-\lambda)x_0:\;\lambda\ge0\}$ meets the sphere
+        $\{y:\|y\|=R\}$ at a unique point, there is a $\lambda_x\in(0,1]$ such that
+        \[y_x:=\lambda_x x+(1-\lambda_x)x_0,\qquad \|y_x\|=R.
+        \]
+        By $\mathcal{L}(t_0)\subset B(0,R)$ we have $y_x\notin\mathcal{L}(t_0)$,
+        hence $f(y_x) > t_0$.
+
+        By convexity of $f$,
+        \[f(y_x)\le\lambda_x f(x)+(1-\lambda_x)f(x_0).
+        \]
+        Rearranging gives
+        \[f(x)\ge\frac{f(y_x)-(1-\lambda_x)f(x_0)}{\lambda_x}
+            =\frac{f(y_x)-f(x_0)}{\lambda_x}+f(x_0)
+        \]
+        Since $\|y_x\|=R$ and $y_x$ lies on the segment between $x_0$ and $x$, one has
+        $\lambda_x\asymp R/\|x\|$ as $\|x\|\to\infty$, so $\lambda_x\to0^+$ and
+        $1/\lambda_x\to\infty$. Because $f(y_x)-f(x_0)>0$, the right-hand side
+        tends to $+\infty$ as $\|x\|\to\infty$, proving the claim.
     \section{}
         Consider a convex function $f:R \to R$ and $K=\left[0,1\right]$.\\
         First we prove that $f(x)$ is bounded on $\left[0,1\right]$:\\
