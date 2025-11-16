@@ -1,13 +1,383 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage{amsmath, amsthm, amssymb, bm, graphicx, hyperref, mathrsfs}
-\title{My Answer}
-\author{Zhu Huatao}
-\date{2025.9.29}
-\linespread{1.5}
+\documentclass[12pt,a4paper]{article}  % Use this line if this document will be released
+%\documentclass[12pt,a4paper,draft]{article}  % Use this line if this document is a draft
+\usepackage{ifdraft}
+
+
+%% Bibliography
+\usepackage{etoolbox}
+\newcommand{\bibfile}{\jobname.bib}  % Name of the BibTeX file.
+% ref.bib should be a symbolic link to the universal BibTeX file, which should be a local copy of
+% https://github.com/equipez/bibliographie/blob/main/ref.bib
+% Run `getbib` in the current directory under the draft mode to get the BibTeX file containing only
+% the cited references. The name will be xyz.bib if this TeX file is xyz.tex.
+\newcommand{\universalbib}{ref.bib}
+\ifdraft{\IfFileExists{\universalbib}{\renewcommand{\bibfile}{\universalbib}}{}}{}
+% The counter `cite' is used to count the number of citations.
+\newcounter{cite}
+\pretocmd{\cite}{\stepcounter{cite}}{}{}
+
+
+%% Add line numbers in draft mode
+\RequirePackage[mathlines]{lineno}
+\ifdraft{\linenumbers}{}
+\renewcommand{\linenumberfont}{\normalfont\scriptsize\sffamily\color{gray}}
+\setlength{\linenumbersep}{\marginparsep}
+
+
+%% Geometry
+%\voffset=-1.5cm \hoffset=-1.4cm \textwidth=16cm \textheight=22.0cm  % Luis' setting
+\usepackage[a4paper, textwidth=16.0cm, textheight=22.0cm]{geometry}
+\renewcommand{\baselinestretch}{1.2}
+
+
+%% Basic packages
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathtools}  % Provides \coloneqq
+\usepackage{empheq}
+\usepackage{xcolor}
+\usepackage[bbgreekl]{mathbbol}
+\DeclareSymbolFontAlphabet{\mathbbm}{bbold}
+\DeclareSymbolFontAlphabet{\mathbb}{AMSb}
+\usepackage{bbm}
+\usepackage{upgreek}
+\usepackage{accents}
+\usepackage{xspace}
+\usepackage{rotating}
+\usepackage{multirow,booktabs}
+\usepackage[en-US]{datetime2}
+
+
+%% Format of the table of content
+\usepackage[normalem]{ulem}
+\usepackage[toc,page]{appendix}
+\renewcommand{\appendixpagename}{\Large{Appendix}}
+\renewcommand{\appendixname}{Appendix}
+\renewcommand{\appendixtocname}{Appendix}
+%\usepackage{sectsty}
+\setcounter{tocdepth}{2}
+
+
+%% Section title style
+\usepackage{sectsty}
+\sectionfont{\large}
+\subsectionfont{\large}
+
+
+%% Some colors
+\definecolor{darkblue}{rgb}{0,0.1,0.5}
+\definecolor{darkgreen}{rgb}{0,0.5,0.1}
+\definecolor{darkyellow}{rgb}{0.65,0.65,0.01}
+
+
+%% Todo notes
+\ifdraft{
+    \setlength{\marginparwidth}{2.42cm}
+    \usepackage[tickmarkheight=3pt,textsize=small,backgroundcolor=blue!16,linecolor=purple,bordercolor=purple]{todonotes}
+}{
+    \newcommand{\todo}[1]{}
+    \newcommand{\listoftodos}{}
+}
+
+
+%% Graph, tikz and pgf
+%\usepackage{subfigure}
+\setlength{\unitlength}{1mm}
+% The \unitlength command is a Length command. It defines the units used in the Picture Environment.
+\usepackage{graphicx}
+%\usepackage{tikz,tikzscale,pgf,pgfarrows,pgfnodes,filecontents,tikz-cd}
+\usepackage{tikz,tikzscale,pgf}
+\usetikzlibrary{arrows,arrows.meta,patterns,positioning,decorations.markings,shapes}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage[justification=centering]{caption}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.11}
+
+
+%% Turn off some unharmful warnings in draft mode
+%% N.B.: DO NOT use `silence` together with `hyperref`. They will cause an infinite loop.
+\ifdraft{
+    \usepackage{silence}
+    \WarningFilter{xcolor}{Incompatible color definition on}
+    \WarningFilter{hyperref}{Draft mode on}
+    \WarningFilter{refcheck}{Unused label}
+    \WarningFilter{microtype}{`draft' option active}
+    \WarningFilter{latex}{Writing or overwriting file} % Mute the warning about 'writing/overwriting file'
+    \WarningFilter{latex}{Writing file} % Mute the warning about 'writing/overwriting file'
+    \WarningFilter{latex}{Tab has} % Mute the warning about 'Tab has been converted to Blank Space'
+    \WarningFilter{latex}{Marginpar on page} % Mute the warning about 'Marginpar on page xx moved'
+    \WarningFilter{latex}{author given} % Mute the warning about 'No \author given'
+}{}
+
+
+%% Hyperref, url, and email
+%% N.B.: DO NOT use `silence` together with `hyperref`. They will cause an infinite loop.
+\ifdraft{\usepackage{refcheck}\newcommand{\url}{\texttt}}{
+    \usepackage{hyperref}
+    \hypersetup{colorlinks, linkcolor=darkblue, anchorcolor=darkblue, citecolor=darkblue, urlcolor=darkblue}
+    \usepackage{url}
+} % Check unused labels
+\newcommand{\email}{\texttt}
+
+
+%% Enumerate and itemize
+\usepackage{eqlist}
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*,label=\normalfont{(\alph*)}}
+
+
+%% Algorithm environment
+\usepackage[section]{algorithm}
+\usepackage{algpseudocode,algorithmicx}
+\newcommand{\INPUT}{\textbf{Input}}
+\newcommand{\FOR}{\textbf{For}~}
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\algrenewcommand\alglinenumber[1]{\normalsize #1.}
+\newcommand*\Let[2]{\State #1 $=$ #2}
+
+
+%% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{exercise}{Exercise}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{problem}{Problem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{question}{Question}[section]
+% Change theoremstyle to ``definition'', which uses textnormal for the text.
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+% proof
+\usepackage{xpatch}
+\xpatchcmd{\proof}{\itshape}{\normalfont\proofnamefont}{}{}
+\newcommand{\proofnamefont}{\bfseries}
+
+%% Equation numbering
+\numberwithin{equation}{section}
+
+
+%% Fine tuning
+\usepackage{microtype}
+\usepackage[nobottomtitles*]{titlesec} % No section title at the bottom of pages
+% Prevent footnote from running to the next page
+\interfootnotelinepenalty=10000
+% No line break in inline math
+\interdisplaylinepenalty=10000
+\relpenalty=10000
+\binoppenalty=10000
+% No widow or orphan lines
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+
+% Use @ to put 1 math unit (mu) in math
+% See https://nhigham.com/2013/01/07/fine-tuning-spacing-in-latex-equations/
+% and also TeXbook p. 155.
+\mathcode`@="8000{\catcode`\@=\active\gdef@{\mkern1mu}}
+
+
+%% Operators, commands
+\usepackage{relsize}
+\usepackage{nccmath}
+%\DeclareMathOperator*{\mcap}{\,\medmath{\bigcap}\,}
+%\DeclareMathOperator*{\mcup}{\,\medmath{\bigcup}\,}
+\DeclareMathOperator*{\mcap}{\,\mathsmaller{\bigcap}\,}
+\DeclareMathOperator*{\mcup}{\,\mathsmaller{\bigcup}\,}
+%\renewcommand{\cap}{\mcap}
+%\renewcommand{\cup}{\mcup}
+
+\newcommand{\ceil}[1]{ {\lceil{#1}\rceil} }
+\newcommand{\floor}[1]{ {\lfloor{#1}\rfloor} }
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\sort}{sort}
+\DeclareMathOperator*{\Argmax}{Argmax}
+\DeclareMathOperator*{\Argmin}{Argmin}
+\DeclareMathOperator*{\Arglocmin}{Arglocmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\diag}{diag}
+\DeclareMathOperator*{\Diag}{Diag}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\med}{med}
+\DeclareMathOperator{\essinf}{essinf}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\comp}{C}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\disth}{{\operatorname{\updelta_{\sss{H}}}}}
+\newcommand{\ind}{\mathbbm{1}}
+%\newcommand*{\defeq}{\stackrel{\mbox{\normalfont\tiny{\textnormal{def}}}}{=}}
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\BB}{\mathcal{B}}
+\renewcommand{\SS}{\mathbb{S}}
+\newcommand{\TT}{\mathcal{T}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\XX}{\mathcal{X}}
+\newcommand{\sset}{\mathcal{S}}
+\newcommand{\pen}{h}
+\newcommand{\penpar}{\mu}
+\newcommand{\res}{\rho}
+\newcommand{\col}{r}
+\newcommand{\ofd}{\mathcal{F}}
+\newcommand{\stf}[1]{\mathbb{S}^{#1}}
+\newcommand{\sss}[1]{{\scriptscriptstyle{#1}}}
+\newcommand{\sK}{{\scriptscriptstyle{K}}}
+\newcommand{\sT}{{\scriptscriptstyle{T}}}
+\newcommand{\fro}{{\scriptstyle{\textnormal{F}}}}
+\newcommand{\trs}{{\scriptstyle{\mathsf{T}}}}
+\newcommand{\hmt}{{\scriptstyle{{\mathsf{H}}}}}
+\newcommand{\pin}{{\scriptstyle{{\mathsf{+}}}}}
+\newcommand{\inv}{{-1}}
+\newcommand{\adj}{*}
+\newcommand{\ones}{\mathbf{1}}
+
+\newcommand{\cs}{\text{c}}
+\newcommand{\hp}{\circ}
+\newcommand{\cc}{\sss{\textnormal{C}}}
+\newcommand{\dec}{\sss{\textnormal{D}}}
+\newcommand{\cauchy}{\sss{\textnormal{C}}}
+\newcommand{\scauchy}{\sss{\textnormal{S}}}
+\newcommand{\crit}{\textnormal{crit}}
+\newcommand{\rsg}{\hat{\partial}}
+\newcommand{\gsg}{\partial}
+\newcommand{\dom}{\textnormal{dom}}
+\newcommand{\tf}{{\textnormal{f}}}
+\newcommand{\tg}{{\textnormal{g}}}
+\newcommand{\ts}{{\textnormal{s}}}
+\newcommand{\st}{\textnormal{s.t.}}
+\newcommand{\etc}{{etc.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\etal}{{et al.}\xspace}
+\newcommand{\iid}{\text{i.i.d.}\xspace}
+\newcommand{\as}{\text{a.s.}\xspace}
+
+\newcommand{\me}{\mathrm{e}}
+\newcommand{\md}{\mathrm{d}}
+\newcommand{\mi}{\mathrm{i}}
+\newcommand{\lev}{\mathrm{lev}}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bx}{\mathbf{u}}
+%\newcommand{\bb}{\mathbf{f}}
+\newcommand{\bb}{\mathbf{r}}
+\newcommand{\nov}{n_{\textnormal{o}}}
+\xspaceaddexceptions{]\}}
+% tex.stackexchange.com/questions/15252/why-does-xspace-behave-differently-for-parenthesis-vs-braces-brackets
+\newcommand{\MATLAB}{\textsc{Matlab}\xspace}
+\newcommand{\octave}{\mbox{GNU Octave}\xspace}
+\newcommand{\prblm}{\texttt}
+\DeclareMathAlphabet{\mathsfit}{T1}{\sfdefault}{\mddefault}{\sldefault}
+\SetMathAlphabet{\mathsfit}{bold}{T1}{\sfdefault}{\bfdefault}{\sldefault}
+\newcommand{\prbb}{\mathsfit{p}}
+\newcommand{\pp}{\mathsf{p}}
+\newcommand{\qq}{\mathsf{q}}
+\newcommand{\ttt}{\mathsfit{t}}
+\newcommand{\tol}{\varepsilon}
+\newcommand{\bt}{\mathbf{t}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\dd}{\mathbf{d}}
+\newcommand{\ii}{\mathbf{i}}
+\newcommand{\jj}{\mathbf{j}}
+\newcommand{\xx}{\mathbf{x}}
+\renewcommand{\pp}{\mathbf{p}}
+\renewcommand{\ggg}{\mathbf{g}}
+\newcommand{\GG}{\mathbf{G}}
+\DeclareMathOperator{\expc}{\mathbb{E}}
+\renewcommand{\Pr}{\mathbb{P}}
+\newcommand{\lb}{\underline}
+\newcommand{\ub}{\overline}
+
+% mathlcal font
+\DeclareFontFamily{U}{dutchcal}{\skewchar\font=45 }
+\DeclareFontShape{U}{dutchcal}{m}{n}{<-> s*[1.0] dutchcal-r}{}
+\DeclareFontShape{U}{dutchcal}{b}{n}{<-> s*[1.0] dutchcal-b}{}
+\DeclareMathAlphabet{\mathlcal}{U}{dutchcal}{m}{n}
+\SetMathAlphabet{\mathlcal}{bold}{U}{dutchcal}{b}{n}
+
+% mathscr font (supporting lowercase letters)
+%\usepackage[scr=dutchcal]{mathalfa}
+%\usepackage[scr=esstix]{mathalfa}
+%\usepackage[scr=boondox]{mathalfa}
+%\usepackage[scr=boondoxo]{mathalfa}
+\usepackage[scr=boondoxupr]{mathalfa}
+%\newcommand{\model}{\mathscr{h}}
+\newcommand{\model}{\tilde{f}}
+\newcommand{\rmod}{F}
+
+\newcommand{\Set}[1]{\mathcal{#1}}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % The mathpzc font
+\newcommand{\slv}{\mathpzc}
+% mathpzc looks great, but it stops working on 19 Feb 2020 for no reason.
+%\newcommand{\slv}{\mathscr}
+\newcommand{\software}{\texttt}
+\DeclareMathOperator{\eff}{\mathsf{e}\;\!}
+\DeclareMathOperator{\Eff}{\mathsf{E}\;\!}
+\newcommand{\out}{{\text{out}}}
+
+
+%% Commands for revision
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\green}[1]{\textcolor{darkgreen}{#1}}
+\newcommand{\TYPO}[1]{{\color{orange}{#1}}}
+\newcommand{\MISTAKE}[1]{{\color{violet}{#1}}}
+\newcommand{\REPHRASE}[1]{{\color{darkgreen}{#1}}}
+\newcommand{\REVISE}[1]{{\color{blue}{#1}}}
+\newcommand{\REVISEred}[1]{{\color{red}{#1}}}
+\newcommand{\COMMENT}{\todo}  % Needs the todonotes package
+%\newcommand{\COMMENT}[1]{\textcolor{brown}{{\small{(comment: #1)}}}}  % This puts comments inline
+
+% Use the following if revision is finished
+%\newcommand{\TYPO}{}
+%\newcommand{\MISTAKE}{}
+%\newcommand{\REPHRASE}{}
+%\newcommand{\REVISE}{}
+%\newcommand{\REVISEred}{}
+%\newcommand{\COMMENT}[1]{}  % Input ignored.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{ }
+
+\date{\DTMnow}
+
+\author{
+    Zhuhuatao
+    \thanks{}
+    %\and
+    %Author2
+    %\thanks{Information2}
+}
+
+
 \begin{document}
-    \maketitle
-    
-        \section{}
+
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+
+%\textbf{Keywords}: Keyword1, Keyword2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{}
         \noindent (a) \\
         By the $L$-Lipschitz continuity of $\nabla f$ we have for all $x,y\in\mathbb{R}^n$:
         \[
@@ -156,22 +526,30 @@
         So $f'(x_{1}) \leq f'(x_{3})$ for every $x_{1} < x_{3}$. In other words, $f'(x)$ is monotone increasing.\\
         Moreover, $f'(x)$ has the intermediate value property, which means that $f'(x)$ is contionous.\\
     \section{}
-        Let $f(x,y)=(y-x^{2})(y-2x^{2})$, then $f(x)$ is twice continously differentiable.\\
-        Near $(0,0)$, for every $k \in R$, 
-        $$ f(x,kx)=x^{2}(k-x)(k-2x) $$
-        when $|x|$ is small enough, $f(x,kx) > 0 = f(0,0)$\\
-        But 
-        $$f(x,\frac{3}{2}x^{2})=-\frac{1}{4}x^{4}$$
-        $ f(x,\frac{3}{2}x^{2}) < 0$ holds for every $x \ne 0 $.\\
-        So $f(x,y)=(y-x^{2})(y-2x^{2})$ is a counterexample.\\
+    Let $f(x,y)=(y-x^{2})(y-2x^{2})$. Then $f$ is twice continuously differentiable.
+    In a neighborhood of $(0,0)$, for every $k\in\mathbb{R}$,
+    \[
+    f(x,kx)=x^{2}(k-x)(k-2x).
+    \]
+    For each fixed $k$ there exists $\delta>0$ such that $0<|x|<\delta$ implies $f(x,kx)>0$, while $f(0,0)=0$.\\
+    Thus, along any straight line through $(0,0)$, the point $(0,0)$ is a local minimizer of $f$.
+    However,
+    \[
+    f\!\left(x,\tfrac{3}{2}x^{2}\right)=-\tfrac{1}{4}x^{4}<0\qquad(x\neq0).
+    \]
+    Therefore $f(x,y)=(y-x^{2})(y-2x^{2})$ provides a counterexample.
     \section{}
-        Let $f(x,y)=x^2+y^2+y^3$, then $f(0,0)=0$.\\
-        Near $(0,0)$, when $0<|x|<1$ and $0<|y|<1$, we have $x^2>0$ and $y^2+y^3>0$.\\
-        So $(0,0)$ is a local minimizer.\\
-        $$\nabla f(x,y)=(2x,2y+3y^2)^{\top}$$
-        $\nabla f(x,y)=0$ if and only if $x=0$ and $y=0$.\\
-        Consider $f(0,y)=y^2+y^3$, let $y \to -\infty$, then $f(0,y) \to -\infty $, which means that (0,0) is not a global minimizer.\\
-        So $f(x,y)=x^2+y^2+y^3$ is a counterexample.\\
+    Let $f(x,y)=x^2+y^2+y^3$. Then $f(0,0)=0$.\\
+    In a neighborhood of $(0,0)$, for $0<|x|<1$ and $0<|y|<1$ we have $x^2\ge 0$ and $y^2+y^3=y^2(1+y)>0$, so $f(x,y)>0$ for $(x,y)\neq(0,0)$. Therefore $(0,0)$ is a local minimizer.
+    The gradient is
+    
+    \[
+    \nabla f(x,y) = \begin{pmatrix}2x \\[4pt] 2y + 3y^2 \end{pmatrix},
+    \]
+    \\
+    which vanishes only at $x=0$ and $y=0$.
+    On the other hand, along the line $x=0$ we have $f(0,y)=y^2+y^3$, and as $y\to -\infty$ one has $f(0,y)\to -\infty$. Hence $(0,0)$ is not a global minimizer.
+    Thus $f(x,y)=x^2+y^2+y^3$ serves as a counterexample.
     \section{}
         We only prove the conclusion for the case $X_i \sim B(1,p)$, $\forall i=1,\cdots,n $.\\
         $$Z=\sum_{i=1}^{n}X_i \sim B(n,p)$$
@@ -276,9 +654,28 @@
         $(f)$:\\
         \\
     \section{}
-        $$\|A\|=\sup_{\|x\|=1}\|Ax\|=\sup_{\|x\| \ne 0} \frac{\|Ax\|}{\|x\|}$$
-        For the case of $x=0$,\\
-        $$\sup_{\|d\|\leq 1}\|Ad\| \geq \sup_{\|d\|=1}\|Ad\| =\|A\|$$
+        Assume that $\|A\|$ is a finite nonnegative number.\\
+        For any vector $x \in \mathbb{R}^n$, denote 
+        \[
+        S_x=\{x+d:\|d\| \le 1  \}
+        \]
+        We know that in a finite-dimensional linear space, the unit sphere
+        \[
+        \mathbb{S}=\{y \in \mathbb{R}^n: \|y\|=1\}
+        \]
+        \\
+        is compact. Additionally, the mapping
+        \[
+        y \mapsto \|Ay\|
+        \]
+        \\
+        is continuous. Therefore, by the extreme value theorem, there exists some $x_0$ with $\|x_0\|=1$ such that
+        \[\|Ax_0\|=\sup_{\|y\|=1}\|Ay\|=\|A\|.\]
+        If either $x_0$ or $ -x_0 $ is in the intersection of $S_x$ and $\mathbb{S}$, then
+        \[
+        max_{z \in S_x}\|Az\| \ge \|Ax_0\|=\|A\|.
+        \]
+        So we only need to prove the case that neither $x_0$ nor $-x_0$ are in the intersection of $S_x$ and $\mathbb{S}$.\\
         \\
     \section{}
         $(a)$:\\
@@ -545,14 +942,31 @@
         if $n,m>N$, $|x_m-x_n|<\varepsilon$. So we have\\
         $$ \sum_{|x_{k+1}-x_k|>\varepsilon}|x_{k+1}-x_k|<\sum_{k=1}^{N+1}|x_{k+1}-x_k|<+\infty $$.\\
         \\
-    \section{}
-        When $(a)$ holds:\\
-        Since $\{a_k\},\{b_k\}$ are nonnegative sequences and $a_k\geq b_k$,\\
-        $$\sum_{k=0}^{\infty} a_{k} \leq \sum_{k=0}^{\infty} b_{k} \leq 2 a_{0}+4 \sum_{k=0}^{\infty} b_{k}$$
+     \section{}
+        When (a) holds:\\
+        Let $\{a_k\}$ and $\{b_k\}$ be nonnegative sequences. If $a_k\le b_k$ for all $k$, then
+        \[
+            \sum_{k=0}^{\infty} a_k \le \sum_{k=0}^{\infty} b_k
+        \]
+        Moreover, the inequality
+        \[
+            \sum_{k=0}^{\infty} b_k \le 2a_0 + 4\sum_{k=0}^{\infty} b_k
+        \]
+        is exactly true since $a_0$ is nonnegative.\\
         \\
-        When $(b)$ holds:\\
-        It's easy to find that $a_k=\frac{1}{2^k}a_0$, so that\\
-        $$\sum_{k=0}^{\infty} a_{k}=\frac{1}{1-\frac{1}{2}}a_{0}=2a_0\leq2a_0+ 4 \sum_{k=0}^{\infty} b_{k}$$
+        When (b) holds:\\
+        By induction, we can have 
+        \[
+        a_k=\dfrac{a_0}{2^k}
+        \]
+        holds for all nonnegative integers k. Then
+        \[
+            \sum_{k=0}^{\infty} a_k = \frac{a_0}{1-\tfrac{1}{2}} = 2a_0
+        \]
+        Hence
+        \[
+            \sum_{k=0}^{\infty} a_k = 2a_0 \le 2a_0 + 4\sum_{k=0}^{\infty} b_k
+        \]
         \\
     \section{}
         $(a)$:\\
@@ -659,4 +1073,16 @@
         which may exceed $n$.\\
         So we cannot rely on such a theory in numerical computation.\\
         
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% References
+% Include references only if there are citations.
+\ifnum\value{cite}>0
+    \small
+    \bibliography{\bibfile}
+    \bibliographystyle{plain}
+\fi
+
+%% The end
 \end{document}
