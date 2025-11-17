@@ -654,7 +654,6 @@
         $(f)$:\\
         \\
     \section{}
-        Assume that $\|A\|$ is a finite nonnegative number.\\
         For any vector $x \in \mathbb{R}^n$, denote 
         \[
         S_x=\{x+d:\|d\| \le 1  \}
@@ -670,13 +669,22 @@
         \]
         \\
         is continuous. Therefore, by the extreme value theorem, there exists some $x_0$ with $\|x_0\|=1$ such that
-        \[\|Ax_0\|=\sup_{\|y\|=1}\|Ay\|=\|A\|.\]
-        If either $x_0$ or $ -x_0 $ is in the intersection of $S_x$ and $\mathbb{S}$, then
         \[
-        max_{z \in S_x}\|Az\| \ge \|Ax_0\|=\|A\|.
+        \|Ax_0\|=\sup_{\|y\|=1}\|Ay\|=\|A\|
         \]
-        So we only need to prove the case that neither $x_0$ nor $-x_0$ are in the intersection of $S_x$ and $\mathbb{S}$.\\
+        Naturally, we expect the larger of $\|Ax-Ax_0\|$ and $\|Ax+Ax_0\|$ to be at least $\|A\|$, that leads us 
+        to investigate the relationship between $\|Ax-Ax_0\|$, $\|Ax+Ax_0\|$ and $\|Ax_0\|$.\\
+        In fact, by the triangle inequality, we have
+        \[
+        \|Ax-Ax_0\|+\|Ax+Ax_0\| \ge 2\|Ax_0\|=2\|A\|
+        \]
         \\
+        This shows that at least one of $\|Ax-Ax_0\|$ and $\|Ax+Ax_0\|$ is no less than $\|A\|$.\\
+        In other words, we have
+        \[
+        \max_{\|d\| \le 1 }\|A(x+d)\|   \ge \max(\|Ax-Ax_0\|,\|Ax+Ax_0\|) \ge \|A\|
+        \]
+         \\
     \section{}
         $(a)$:\\
         If $\lambda \ne 0$ is an eigenvalue of $AB$ and $ABv=\lambda v$, we have\\
@@ -727,35 +735,50 @@
         then the multiplicity $p(\lambda)$ is also $k$.
         \\
     \section{}
+        We compute the eigenvalues of matrix A by calculating its characteristic polynomial.
         \[
         \lambda I_n-A= 
         \begin{pmatrix}
-        \lambda-1 &\cdots & -x\\
-        \vdots    &\ddots & \vdots\\
-        -x        &\cdots & \lambda-1
+        \lambda-1 &-x     &\cdots & -x\\
+        -x        &\ddots &\ddots& \vdots \\
+        \vdots    &\ddots &\ddots & -x  \\
+        -x        &\cdots &-x     &\lambda-1
         \end{pmatrix}
         \]
         \[
         det(\lambda I_n-A)= det
         \begin{pmatrix}
-        \lambda-1 &\cdots & -x\\
-        \vdots    &\ddots & \vdots\\
-        -x        &\cdots & \lambda-1
-        \end{pmatrix}=(\lambda-1-(n-1)x)\cdot det 
-        \begin{pmatrix}
-        1         &-x       &\cdots & -x\\
-        1         &\lambda-1&\cdots & -x\\
-        \vdots    &\vdots   &\ddots & \vdots\\
-        1         &-x       &\cdots & \lambda-1
+        \lambda-1 &-x     &\cdots & -x\\
+        -x        &\ddots &\ddots& \vdots \\
+        \vdots    &\ddots &\ddots & -x  \\
+        -x        &\cdots &-x     &\lambda-1
         \end{pmatrix}
         \]
+        We add the last n-1 columns of this determinant to the first column. 
+        It is easy to see that all elements in the first column become equal, 
+        thus we can perform the following transformation:
+        \[
+        det(\lambda I_n-A)
+        =(\lambda-1-(n-1)x)\cdot det 
+        \begin{pmatrix}
+        1         &-x       &-x       &\cdots & -x\\
+        1         &\lambda-1&-x       &\cdots & -x\\
+        \vdots    &-x       &\lambda-1&\ddots & \vdots\\
+        \vdots    &\vdots   &\ddots   &\ddots &-x\\
+        1         &-x       &\cdots   &-x     &\lambda-1
+        \end{pmatrix}
+        \]
+        In order to make the determinant sparser for easier computation, 
+        we multiply the first row by x and add it to the last n-1 rows, 
+        thereby eliminating all occurrences of -x:
         \[
         det(\lambda I_n-A)= (\lambda-1-(n-1)x)\cdot det
         \begin{pmatrix}
-        1         &0        &\cdots & 0\\
-        1         &\lambda-1+x&\cdots & 0\\
-        \vdots    &\vdots   &\ddots & \vdots\\
-        1         &0        &\cdots & \lambda-1+x
+        1         &0          &0      &\cdots & 0\\
+        1         &\lambda-1+x&0      &\cdots & 0\\
+        1         &0          &\lambda-1+x&\ddots & \vdots\\
+        \vdots    &\vdots     &\ddots     &\ddots &0\\
+        1         &0        &\cdots   &0      &\lambda-1+x
         \end{pmatrix}
         \]
         $$det(\lambda I_n-A)=(\lambda-1-(n-1)x)(\lambda-1+x)^{n-1}$$
@@ -763,7 +786,9 @@
         The eigenvalues of $A$ are $1-x$ (order $n-1$) and $1+(n-1)x$ (order $1$).\\
         \\
         $(b)$:\\
-        $A$ is positive definite if and only if $1-x>0$ and $1+(n-1)x>0$, 
+        The symmetric matrix $A$ is positive definite if and only if all the eigenvalues of $A$ are positive.
+        That is to say, $1-x>0$ and $1+(n-1)x>0$.\\
+        So we have
         $$ -\frac{1}{n-1} < x < 1 $$
         \\
     \section{}
@@ -894,10 +919,13 @@
         $TX=C$ has a unique solution for all $C\in R^{m\times n}$.\\
         \\
     \section{}
-        Let $g(x)$ be the $c.d.f$ of $X$, and $g(-\infty)=0$, $g(+\infty)=1$.\\
-        For every partition of the interval $[-\infty,+\infty]$, $-\infty=x_0<x_1<\dots <x_n=+\infty$. \\
+        Let $g(x)$ be the $c.d.f$ of $X$, that is, $g(-\infty)=0$ and  $g(+\infty)=1$.\\
+        For every finite partition of interval $[-\infty,+\infty]$, take $\{x_k\}_{k=0}^{n}$ be the partition points, 
+        where \\
+        $$-\infty=x_0<x_1<\dots <x_n=+\infty$$ 
+        By the convexity of $f(x)$, we have
         $$ f(\sum_{i=0}^{n-1}(g(x_{i+1})-g(x_i))x_i) \leq \sum_{i=0}^{n-1}f(x_i)((g(x_{i+1})-g(x_i))) $$
-        Let $n\to \infty$ and $ \max_{1\leq i \leq n-2}(x_{i+1}-x_{i}) \to 0$, we have:\\
+        Let $n\to \infty$ and $ \max_{1\leq i \leq n-2}(x_{i+1}-x_{i}) \to 0$, we have\\
         $$ f(\int_{-\infty}^{+\infty}x\mathrm{d}g(x)) \leq \int_{-\infty}^{+\infty}f(x)\mathrm{d}g(x)$$
         $$ f(\mathbb{E} (X)) \leq \mathbb{E}(f(X)) $$
         \\
@@ -925,11 +953,36 @@
         $$ \mathbb{E}(f(X)g(X))-\mathbb{E}(g(X))\mathbb{E}(f(Y))\geq 0 $$
     \section{}
         We have rearrangement inequality:\\
-        For any rearrangement $\sigma$ of the sequence 0, 1, ..., n, we have:\\
+        For any rearrangement $\sigma$ of the sequence $0, 1, ..., n$, we have:\\
         $$ \sum_{k=0}^{n} a_{k} b_{n-k} \leq \sum_{k=0}^{n} a_{k} b_{\sigma(k)} \leq \sum_{k=0}^{n} a_{k} b_{k}$$
-        Consider a rearrangement $\tau$, satisfied $\tau(k)\equiv k+1 \pmod{n+1}$. Let $\tau ^m(k)\equiv k+m \pmod{n+1}$ then \\
-        $$ \frac{1}{n+1}\left(\sum_{k=0}^{n} a_{k}\right)\left(\sum_{k=0}^{n} b_{k}\right)
-        = \frac{1}{n+1}\sum_{i=0}^{n} \sum_{j=0}^{n}a_{j}b_{\tau^{i}(j)} $$
+        Consider a rearrangement $\tau$, where 
+        $$\tau(k)\equiv k+1 \pmod{n+1}$$ 
+        then 
+        $$\tau ^m(k)\equiv k+m \pmod{n+1}$$
+        We first analyze the expression
+        $$ \left(\sum_{k=0}^{n} a_{k}\right)\left(\sum_{k=0}^{n} b_{k}\right) $$
+        Let us consider the matrix $A$, whose $(i,j)$-th entry is $a_{i}b_{j}$ for $0\leq i,j \leq n$
+        \[
+        A=
+        \begin{pmatrix}
+        a_{0}b_{0} & a_{0}b_{1} & \cdots & a_{0}b_{n} \\
+        a_{1}b_{0} & a_{1}b_{1} & \cdots & a_{1}b_{n} \\
+        \vdots     & \vdots     & \ddots & \vdots     \\
+        a_{n}b_{0} & a_{n}b_{1} & \cdots & a_{n}b_{n} \\
+        \end{pmatrix}
+        \]\\
+        Then each term in the above expression corresponds to an entry in this matrix. So we are going to 
+        compute the sum of all elements in the matrix.
+        Let us consider the diagonals of this matrix that are parallel to the main diagonal. \\
+        We denote the main digonal as the $0$-th diagonal. \\
+        The $i$-th diagonal is defined as the diagonal obtained by shifting the main diagonal $i$ places to the right
+        (if $i$ is negative, then we shift to the left). \\
+        There are $n+1$ such diagonals, and the sum of the elements on the $i$-th diagonal and $i-n-1$-th digonal is
+        $$ \sum_{j=0}^{n} a_{j}b_{\tau^{i}(j)} $$
+        for $0\leq i \leq n$.\\
+        Then the sum of all elements in matrix $A$ is
+        $$ \left(\sum_{k=0}^{n} a_{k}\right)\left(\sum_{k=0}^{n} b_{k}\right)
+        = \sum_{i=0}^{n} \sum_{j=0}^{n}a_{j}b_{\tau^{i}(j)} $$
         So by rearrangement inequality, we have:\\
         $$ \sum_{k=0}^{n} a_{k} b_{n-k} \leq \frac{1}{n+1}\left(\sum_{k=0}^{n} a_{k}\right)\left(\sum_{k=0}^{n} b_{k}\right) \leq \sum_{k=0}^{n} a_{k} b_{k} $$
     \\
